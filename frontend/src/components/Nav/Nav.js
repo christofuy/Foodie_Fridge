@@ -16,6 +16,7 @@ export const NavLink = ({to, children}) => {
 			className='nav__link'
 			style={{
 				margin: '0 1.40625em',
+				color: '#6D6D6D'
 			}}
 			to={to}
 		>

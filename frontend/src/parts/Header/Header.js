@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom'
-import Button from '@material-ui/core/Button'
+import Button from '../../components/Button/Button'
 import {Nav, NavLink} from '../../components/Nav/Nav'
 import FoodieFridgeLogo from '../../assets/img/FoodieFridgeLogo.png'
 
@@ -25,7 +25,7 @@ const Header = () => {
 					<NavLink to='/services'>Services</NavLink>
 					<NavLink to='/contact'>Contact Us</NavLink>
 				</Nav>
-				<Button variant='contained'>Register</Button>
+				<Button variant='outlined' color='secondary'>Register</Button>
 			</div>
 		</header>
 	)
