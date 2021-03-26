@@ -11,7 +11,7 @@ const Hero = () => {
 				>
 					<h2>Smart Fridge Features without the Smart Fridge Premium</h2>
 					<p>Enhance your at-home dining experience with the freshest ingredients and the richest recipes with your own Foodie Fridge.</p>
-					<Button>Start Now</Button>
+					<Button variant='outlined' color='primary'>Start Now</Button>
 				</div>
 				<div className='hero__img'>
 					<div className='' />
