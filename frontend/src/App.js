@@ -3,6 +3,7 @@ import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import './assets/scss/main.scss'
 
 import Home from './pages/Home/Home'
+import Register from './pages/Register/Register'
 
 
 const customTheme = createMuiTheme({
@@ -34,6 +35,7 @@ const App = () => {
 			<Router>
 				<Switch>
 					<Route exact path='/' component={Home} />
+					<Route exact path='/register' component={Register} />
 				</Switch>
 			</Router>
 		</ThemeProvider>
