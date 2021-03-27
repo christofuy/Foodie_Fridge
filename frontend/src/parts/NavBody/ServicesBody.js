@@ -1,7 +1,7 @@
 const ServicesBody = () => {
 	return (
 		<div>
-			<p>Services page
+			<p>Foodie Fridge provides users.
             </p>
 		</div>
 	)
