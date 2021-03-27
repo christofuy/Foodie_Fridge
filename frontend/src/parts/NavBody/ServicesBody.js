@@ -3,8 +3,9 @@ import './servicesbody.scss'
 const ServicesBody = () => {
 	return (
 		<div>
-			<p className = 'services-intro'>Foodie Fridge provides users with the ability to easily keep track of food they currently have, and how close they
-			would be to expiring. 
+			<p className = 'services-intro'>Foodie Fridge provides users with the ability to easily keep track of food they have and how close they
+			would be to expiring. Using what someone has available to them, we then are able to recommend certain recipes, and utilize everything in your kitchen
+			before it goes to waste.
             </p>
 
 			<p className = 'services-wip'>
