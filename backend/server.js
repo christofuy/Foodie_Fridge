@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
+const cors = require('cors')
 var express = require('express');
 var app = express();
 const router = express.Router();
@@ -9,22 +10,12 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true ,useUnifiedTopology: true});
 
-const port = 3000;
+app.use(cors({origin: 'http://localhost:3000'}));
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log("listening on port " + port))
 
-router.get('/',(req,res,next)=>{
-   res.send('Test'); 
-});
-
-//deletes user
-router.delete('/api/user/:id', (req,res) => {
-    User.findByIdandRemove(req.params.id).exec()
-    .then(doc => {
-        if (!doc) { return res.status(404).end();}
-        return res.status(204).end();
-    })
-    .catch(err => next(err));
-});
+app.use(express.json());
+app.use('/api/user', require('./routes/users_route'));
 
 module.exports = router
