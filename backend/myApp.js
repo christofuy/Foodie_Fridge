@@ -1,16 +1,30 @@
+const dotenv = require("dotenv");
+dotenv.config();
 var express = require('express');
 var app = express();
-const router = express.Router()
-var bodyParser = require('body-parser');
-const path = require('path');
-var User = require('./users.js'); 
+const router = express.Router();
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true ,useUnifiedTopology: true});
+
+//creates User schema
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
+    name : {type : String, required : true},
+    email : {type : String, required : true},
+    password : {type : String, min: 8, required : true} 
+})
+
+const User = mongoose.model('User',userSchema);
 
 const port = 3000;
 
-app.listen(port, () => console.log("listening on port" + port))
+app.listen(port, () => console.log("listening on port " + port))
 
 //creates user
-app.post('/api/user', (req,res) => {
+router.post('/api/user', (req,res) => {
     const {name, email, password} = req.body
     if (!name || !email || !password) {
         return res.status(400).json({msg: 'Please input in all boxes'})
@@ -28,17 +42,53 @@ app.post('/api/user', (req,res) => {
     })
 });
 
-//reads user credentials
-app.get('/api/user', (req,res) => {
-    res.json({name : req.body.name, email : req.body.email, password : req.body.password})
+//reads user credentials and renders it
+router.get('/api/user', (req,res) => {
+    res.json({'user' : req.params.id})
 });
 
 //updates user
-app.put('/api/user', (req,res) => {
-    
+router.put('/api/user/:id', (req,res) => {
+    var id = req.params.id;
+    User.findOne({_id : id}, function(err, foundObject) {
+        if (err) {
+            console.log(err);
+            res.status(500).send();
+        } else {
+            if(!foundObject) {
+                res.status(404).send();
+            } else {
+                if(req.body.name) {
+                    foundObject.name = req.body.name;
+                }
+                if(req.body.email) {
+                    foundObject.email = req.body.email;
+                }
+                if(req.body.password) {
+                    foundObject.password = req.body.password;
+                }
+
+                foundObject.save(function(err, updatedObject) {
+                    if(err) {
+                        console.log(err);
+                        res.status(500).send();
+                    }else{
+                        res.send(updatedObject);
+                    }
+                });
+            }
+        }
+    });
 });
 
 //deletes user
-app.delete('/api/user', (req,res) => {
-
+router.delete('/api/user/:id', (req,res) => {
+    User.findByIdandRemove(req.params.id).exec()
+    .then(doc => {
+        if (!doc) { return res.status(404).end();}
+        return res.status(204).end();
+    })
+    .catch(err => next(err));
 });
+
+module.exports = router
