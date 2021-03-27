@@ -14,12 +14,12 @@ import {makeStyles} from '@material-ui/core/styles'
 //MUI Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const useStyles=makeStyles(theme=>({
-	drawerItemIcon:{
-		minWidth:0,
-		marginRight:'0.75rem',
-		'& svg':{
-			color:theme.palette.grey[400]
+const useStyles = makeStyles(theme => ({
+	drawerItemIcon: {
+		minWidth: 0,
+		marginRight: '0.75rem',
+		'& svg': {
+			color: theme.palette.grey[400]
 		}
 	},
 }))
@@ -59,7 +59,7 @@ export const DrawerItemGroup = ({divider, children, ...rest}) => {
 
 
 export const DrawerGroupSubheader = ({children}) => {
-	return <ListSubheader>{children}</ListSubheader>
+	return <ListSubheader><h4 style={{color: '#6D6D6D'}}>{children}</h4></ListSubheader>
 }
 
 
