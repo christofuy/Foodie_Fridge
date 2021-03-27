@@ -1,6 +1,7 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import './assets/scss/main.scss'
+import {AuthProvider} from './utils/useAuth'
 
 import Home from './pages/Home/Home'
 import Register from './pages/Register/Register'
@@ -29,26 +30,28 @@ const customTheme = createMuiTheme({
 		},
 	},
 	typography: {
-		fontFamily: '"Poppins",sans-serif'
+		fontFamily: '"Playfair Display",sans-serif'
 	},
 })
 
 
 const App = () => {
 	return (
-		<ThemeProvider theme={customTheme}>
-			<Router>
-				<Switch>
-					<Route exact path='/' component={Home} />
-					<Route exact path='/register' component={Register} />
-					<Route exact path='/login' component={Login} />
-					<Route exact path='/dashboard' component={Dashboard} />
-					<Route exact path='/about' component={About} />
-					<Route exact path='/services' component={Services} />
-					<Route exact path='/contact' component={Contact} />
-				</Switch>
-			</Router>
-		</ThemeProvider>
+		<AuthProvider>
+			<ThemeProvider theme={customTheme}>
+				<Router>
+					<Switch>
+						<Route exact path='/' component={Home} />
+						<Route exact path='/register' component={Register} />
+						<Route exact path='/login' component={Login} />
+						<Route exact path='/dashboard' component={Dashboard} />
+						<Route exact path='/about' component={About} />
+						<Route exact path='/services' component={Services} />
+						<Route exact path='/contact' component={Contact} />
+					</Switch>
+				</Router>
+			</ThemeProvider>
+		</AuthProvider>
 	)
 }
 

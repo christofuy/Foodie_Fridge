@@ -2,8 +2,11 @@ import {Link} from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import {Nav, NavLink} from '../../components/Nav/Nav'
 import FoodieFridgeLogo from '../../assets/img/FoodieFridgeLogo.png'
+import useAuth from '../../utils/useAuth'
 
 const Header = () => {
+	const {user} = useAuth()
+
 	return (
 		<header
 			style={{
@@ -29,9 +32,9 @@ const Header = () => {
 					variant='outlined'
 					color='secondary'
 					rounded
-					to='/register'
+					to={user ? '/dashboard' : '/login'}
 				>
-					Register</Button>
+					{user ? 'Dashboard' : 'Login'}</Button>
 			</div>
 		</header>
 	)

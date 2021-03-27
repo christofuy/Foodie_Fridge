@@ -1,27 +1,42 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-let User = require('../models/users.js')
+const jwt = require('jsonwebtoken')
+let User = require('../models/user.model.js')
 
 //creates user
 router.post('/', (req, res) => {
+	if (req.uid) return res.json({msg: 'Already logged in'})
 	const {name, email, password} = req.body
 	if (!name || !email || !password) {
 		return res.status(400).json({msg: 'Please input in all boxes'})
 	}
 	const newUser = new User({name, email, password})
 	bcrypt.genSalt(10, (err, salt) => {
+		if (err) {
+			console.log('error generating salt')
+			throw err
+		}
+
 		bcrypt.hash(newUser.password, salt, (err, hash) => {
-			if (err) throw err
+			if (err) {
+				console.log('error hashing password')
+				throw err
+			}
+
 			newUser.password = hash
 			newUser.save((err, user) => {
 				if (err) {
-					res.json({err})
-					return
+					console.log('error saving user')
+					return res.json({err})
 				}
-				//req.session.userId = user.id
-				res.json({uid: user.id, email: user.email})
-				return
+				jwt.sign({uid: user._id}, 'secretkey', (err, token) => {
+					if (err) {
+						//return res.sendStatus(403)
+						throw err
+					}
+					res.json({token, msg: 'Successfully created user'})
+				})
 			})
 		})
 	})
@@ -78,8 +93,8 @@ router.put('/:id', (req, res) => {
 
 
 //reads user credentials
-router.get('/', (req, res) => {
-	res.send(req.params.id);
-});
+//router.get('/', (req, res) => {
+//res.send(req.params.id);
+//});
 
 module.exports = router

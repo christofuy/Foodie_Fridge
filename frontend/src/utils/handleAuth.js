@@ -4,7 +4,17 @@ export const handleRegister = async (values, {setSubmitting}) => {
 	setSubmitting(true)
 	const {name, email, password2} = values
 	try {
-		//TODO: Make request to backend
+		const res = await fetch('http://localhost:5000/api/user', {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json'
+			},
+			body: JSON.stringify({name, email, password: password2})
+		})
+		const payload = await res.json()
+		console.log(payload)
 	} catch (err) {
 		//TODO:Handle "email already in use" error
 		console.log('Registration Error', err)

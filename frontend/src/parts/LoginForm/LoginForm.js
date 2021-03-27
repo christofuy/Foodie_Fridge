@@ -4,7 +4,7 @@ import TextField from '../../components/Form/TextField'
 import Button from '../../components/Button/Button'
 import {Link} from 'react-router-dom'
 import {loginValidation} from '../../validations/authValidation'
-import {handleLogin} from '../../utils/handleAuth'
+import useAuth from '../../utils/useAuth'
 import './loginform.scss'
 
 
@@ -15,7 +15,9 @@ const initialValues = {
 }
 
 
-const RegisterForm = () => {
+const LoginForm = () => {
+	const {login} = useAuth()
+
 	return (
 		<div className='login-form flex'>
 			<div className='background-auth' />
@@ -24,7 +26,7 @@ const RegisterForm = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={loginValidation}
-						onSubmit={handleLogin}
+						onSubmit={login}
 					>
 						{
 							({dirty, isSubmitting, isValid}) => (
@@ -68,4 +70,4 @@ const RegisterForm = () => {
 }
 
 
-export default RegisterForm
+export default LoginForm

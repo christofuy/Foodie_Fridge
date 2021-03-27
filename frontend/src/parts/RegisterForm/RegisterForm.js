@@ -4,7 +4,7 @@ import TextField from '../../components/Form/TextField'
 import Button from '../../components/Button/Button'
 import {Link} from 'react-router-dom'
 import {registerValidation} from '../../validations/authValidation'
-import {handleRegister} from '../../utils/handleAuth'
+import useAuth from '../../utils/useAuth'
 import './registerform.scss'
 
 
@@ -18,6 +18,8 @@ const initialValues = {
 
 
 const RegisterForm = () => {
+	const {register} = useAuth()
+
 	return (
 		<div className='register-form flex'>
 			<AuthCard>
@@ -25,7 +27,7 @@ const RegisterForm = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={registerValidation}
-						onSubmit={handleRegister}
+						onSubmit={register}
 					>
 						{
 							({dirty, isSubmitting, isValid}) => (
