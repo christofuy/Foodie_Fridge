@@ -5,6 +5,9 @@ import './assets/scss/main.scss'
 import Home from './pages/Home/Home'
 import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
+import About from './pages/About/About'
+import Services from './pages/Services/Services'
+import Contact from './pages/Contact/Contact'
 
 
 const customTheme = createMuiTheme({
@@ -38,6 +41,10 @@ const App = () => {
 					<Route exact path='/' component={Home} />
 					<Route exact path='/register' component={Register} />
 					<Route exact path='/login' component={Login} />
+
+					<Route exact path ='/about' component={About} />
+					<Route exact path='/services' component={Services} />
+					<Route exact path ='/contact' component={Contact} />
 				</Switch>
 			</Router>
 		</ThemeProvider>
