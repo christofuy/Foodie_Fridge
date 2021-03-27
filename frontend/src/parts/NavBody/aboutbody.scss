@@ -1,0 +1,48 @@
+@import 'config.scss';
+
+.about-intro {
+    text-align: center;
+    margin: 8em 16em 2em 16em;
+
+}
+
+.about-text {
+    text-align: center;
+    margin-bottom: 1em;
+    margin-left: 16em;
+    margin-right: 16em;
+
+}
+
+.about-support {
+    text-align: center;
+    margin-left: 16em;
+    margin-right: 16em;
+}
+
+.about-cite {
+    bottom: 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+}
+
+// .contact-body{
+// 	min-width:100%;
+// 	min-height:100vh;
+//     text-align: center;
+//     margin-top: 8em;
+    
+// }
+
+// .header-body{
+//     font-size: 3vh;
+//     color: black;
+// }
+
+// .contact-bar{
+// 	min-width:100%;
+// 	min-height:100vh;
+//     text-align: center;
+//     margin-top: 4em;
+// }
