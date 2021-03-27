@@ -1,0 +1,20 @@
+@import 'config.scss';
+
+
+.login-form{
+	min-width:100%;
+	min-height:100vh;
+	.background-auth{
+		background:url('../../assets/img/Corn.jpg') center/cover no-repeat;
+		@media(min-width:601px){ width:100%; }
+	}
+}
+
+.helpLinks{
+	margin-top:0.5em;
+	a{
+		font-size:12px;
+		color:$ndark-light;
+		&:hover{text-decoration:underline;}
+	}
+} 

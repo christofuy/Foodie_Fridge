@@ -4,6 +4,7 @@ import './assets/scss/main.scss'
 
 import Home from './pages/Home/Home'
 import Register from './pages/Register/Register'
+import Login from './pages/Login/Login'
 
 
 const customTheme = createMuiTheme({
@@ -36,6 +37,7 @@ const App = () => {
 				<Switch>
 					<Route exact path='/' component={Home} />
 					<Route exact path='/register' component={Register} />
+					<Route exact path='/login' component={Login} />
 				</Switch>
 			</Router>
 		</ThemeProvider>
