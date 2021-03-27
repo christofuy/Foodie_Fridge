@@ -1,0 +1,24 @@
+@import 'config.scss';
+
+.dashboard__main{
+	background-color:#E9EEE3;
+	width:100%;
+	overflow:scroll;
+	padding:2em 0;
+	.dashboard__components{
+		display:grid;
+		grid-gap:clamp(1em,5vw,2em);
+		grid-template-columns:repeat(5,1fr);
+		.dashCard{
+			&.dashCard-expiry{
+				grid-column:1 / span 5;
+			}
+			&.dashCard-recipe{
+				grid-column:1 / span 2;
+			}
+			&.dashCard-fridge{
+				grid-column:3 / span 3;
+			}
+		}
+	}
+}

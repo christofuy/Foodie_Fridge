@@ -80,6 +80,7 @@ export const DrawerItem = ({icon, title, to, action, children, listItemProps, li
 		<>
 			<ListItem
 				button
+				style={{borderTop:'1px solid rgba(0,0,0,0.1)'}}
 				onClick={children ? toggleMenu : onClick}
 				{...listItemProps}
 			>
