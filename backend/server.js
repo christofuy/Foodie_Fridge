@@ -9,80 +9,12 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true ,useUnifiedTopology: true});
 
-//creates User schema
-const Schema = mongoose.Schema;
-const userSchema = new Schema({
-    name : {type : String, required : true},
-    email : {type : String, required : true},
-    password : {type : String, min: 8, required : true} 
-})
-
-const User = mongoose.model('User',userSchema);
-
 const port = 3000;
 
 app.listen(port, () => console.log("listening on port " + port))
 
-//creates user
-router.post('/:id/create', (req,res) => {
-    const {name, email, password} = req.body
-    if (!name || !email || !password) {
-        return res.status(400).json({msg: 'Please input in all boxes'})
-    }
-    const newUser = new User({name,email,password})
-    bcrypt.getSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err
-            newUser.password = hash
-            newUser.save((err, user) => {
-                if (err) return res.json({err})
-                req.session.userId = user.id
-            })
-        })
-    })
-});
-
-//reads user credentials and renders it
-router.get('/:id', (req,res) => {
-    res.send(req.params.id);
-});
-
 router.get('/',(req,res,next)=>{
    res.send('Test'); 
-});
-
-//updates user
-router.put('/:id/delete', (req,res) => {
-    var id = req.params.id;
-    User.findOne({_id : id}, function(err, foundObject) {
-        if (err) {
-            console.log(err);
-            res.status(500).send();
-        } else {
-            if(!foundObject) {
-                res.status(404).send();
-            } else {
-                if(req.body.name) {
-                    foundObject.name = req.body.name;
-                }
-                if(req.body.email) {
-                    foundObject.email = req.body.email;
-                }
-                if(req.body.password) {
-                    foundObject.password = req.body.password;
-                }
-
-                foundObject.save(function(err, updatedObject) {
-                    if(err) {
-                        console.log(err);
-                        res.status(500).send();
-                    }else{
-                        res.send(updatedObject);
-                    }
-                });
-            }
-        }
-    });
 });
 
 //deletes user
