@@ -24,7 +24,7 @@ const port = 3000;
 app.listen(port, () => console.log("listening on port " + port))
 
 //creates user
-router.post('/api/user', (req,res) => {
+router.post('/:id/create', (req,res) => {
     const {name, email, password} = req.body
     if (!name || !email || !password) {
         return res.status(400).json({msg: 'Please input in all boxes'})
@@ -43,12 +43,16 @@ router.post('/api/user', (req,res) => {
 });
 
 //reads user credentials and renders it
-router.get('/api/user', (req,res) => {
-    res.json({'user' : req.params.id})
+router.get('/:id', (req,res) => {
+    res.send(req.params.id);
+});
+
+router.get('/',(req,res,next)=>{
+   res.send('Test'); 
 });
 
 //updates user
-router.put('/api/user/:id', (req,res) => {
+router.put('/:id/delete', (req,res) => {
     var id = req.params.id;
     User.findOne({_id : id}, function(err, foundObject) {
         if (err) {
