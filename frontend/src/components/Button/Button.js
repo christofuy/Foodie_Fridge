@@ -1,13 +1,19 @@
+import {useHistory} from 'react-router-dom'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import {makeStyles} from '@material-ui/core/styles'
 
 
-const Button = ({variant, className, bold, dense, rounded, color, children, ...props}) => {
+const Button = ({variant, className, dense, rounded, color, to, children, ...props}) => {
 	const classes = useStyles()
+	const history = useHistory()
+
 	const variants = {
 		outlined: classes.outlined,
 		contained: classes.contained,
 	}
+
+
+	const pushLink = () => history.push(to)
 
 	return (
 		<ButtonBase
@@ -17,9 +23,9 @@ const Button = ({variant, className, bold, dense, rounded, color, children, ...p
 				${className}
 				${dense && 'btn-dense'}
 				${color && `btn-${color}`}
-				${bold && 'btn-bold'}
 				${rounded && 'btn-rounded'}
 			`}
+			onClick={to && pushLink}
 			{...props}
 		>{children} </ButtonBase>
 	)

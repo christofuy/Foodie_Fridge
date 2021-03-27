@@ -25,7 +25,13 @@ const Header = () => {
 					<NavLink to='/services'>Services</NavLink>
 					<NavLink to='/contact'>Contact Us</NavLink>
 				</Nav>
-				<Button variant='outlined' color='secondary' rounded>Register</Button>
+				<Button
+					variant='outlined'
+					color='secondary'
+					rounded
+					to='/register'
+				>
+					Register</Button>
 			</div>
 		</header>
 	)
