@@ -1,28 +1,23 @@
 @import 'config.scss';
 
-
 .contact-body{
 	min-width:100%;
-	min-height:100vh;
     text-align: center;
-    margin-top: 8em;
-    
+    margin-top: 8em;   
 }
 
 .header-body{
     font-size: 3vh;
-    color: black;
+    color: rgb(68, 68, 68);
 }
 
 .contact-bar{
 	min-width:100%;
-	min-height:100vh;
     text-align: center;
     margin-top: 4em;
 }
 
 .list-item {
     display: inline;
-    
     margin: 50px;
 }

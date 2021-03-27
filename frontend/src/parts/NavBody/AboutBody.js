@@ -15,8 +15,8 @@ const AboutBody = () => {
 				<sup>
 					<a href = 'https://www.fda.gov/food/consumers/food-loss-and-waste#:~:text=In%20the%20United%20States%2C%20food,worth%20of%20food%20in%202010.'>[1]</a>
 				</sup>, 
-				a number much too high when considering that poverty, homelessness, and starvation still exists in the world. Whether you are a home chef or a professional, 
-				we hope that our service can help reduce waste without the overhead of expensive equipment or inventory management systems.
+				a number much too high when considering the fact that poverty, homelessness, and starvation still exists in the world. Whether you are a home chef or a professional, 
+				we hope that our service can be accessible to anyone, and help reduce waste without the overhead of expensive equipment or inventory management systems.
             </p>
 
 			<p className = 'about-support'>
