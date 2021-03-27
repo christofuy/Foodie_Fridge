@@ -1,28 +1,21 @@
-const express = require('express');
-const cors = require('cors');
+const dotenv = require("dotenv");
+dotenv.config();
+const cors = require('cors')
+var express = require('express');
+var app = express();
+const router = express.Router();
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true ,useUnifiedTopology: true});
 
-const app = express();
+app.use(cors({origin: 'http://localhost:3000'}));
 const port = process.env.PORT || 5000;
 
-//Middlware
-app.use(cors({origin: 'http://localhost:3000'})); //allow cors
+app.listen(port, () => console.log("listening on port " + port))
+
 app.use(express.json());
+app.use('/api/user', require('./routes/users_route'));
 
-//const uri = process.atlas.env.ATLAS_URI;
-//mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true}
-//);
-//const connection = mongoose.connection;
-//connection.once('open', () => {
-//console.log("MongoDB database connection established successfully");
-//})
-
-
-//Add routes to API
-app.use('/api/chat', require('./routes/requests'))
-
-app.listen(port, () => {
-	console.log(`Server is running on port: ${port}`);
-});
+module.exports = router

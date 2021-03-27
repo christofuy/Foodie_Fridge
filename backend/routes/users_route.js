@@ -1,30 +1,10 @@
-const dotenv = require("dotenv");
-dotenv.config();
-var express = require('express');
-var app = express();
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true ,useUnifiedTopology: true});
-
-//creates User schema
-const Schema = mongoose.Schema;
-const userSchema = new Schema({
-    name : {type : String, required : true},
-    email : {type : String, required : true},
-    password : {type : String, min: 8, required : true} 
-})
-
-const User = mongoose.model('User',userSchema);
-
-const port = 3000;
-
-app.listen(port, () => console.log("listening on port " + port))
+const express = require('express')
+const router = express.Router()
+const bcrpt = require('bcrypt')
+let User = require('../models/users.js')
 
 //creates user
-router.post('/api/user', (req,res) => {
+router.post('/create', (req,res) => {
     const {name, email, password} = req.body
     if (!name || !email || !password) {
         return res.status(400).json({msg: 'Please input in all boxes'})
@@ -42,13 +22,18 @@ router.post('/api/user', (req,res) => {
     })
 });
 
-//reads user credentials and renders it
-router.get('/api/user', (req,res) => {
-    res.json({'user' : req.params.id})
+//deletes user
+router.delete('/:id', (req,res) => {
+    User.findByIdandRemove(req.params.id).exec()
+    .then(doc => {
+        if (!doc) { return res.status(404).end();}
+        return res.status(204).end();
+    })
+    .catch(err => next(err));
 });
 
 //updates user
-router.put('/api/user/:id', (req,res) => {
+router.put('/:id', (req,res) => {
     var id = req.params.id;
     User.findOne({_id : id}, function(err, foundObject) {
         if (err) {
@@ -81,14 +66,9 @@ router.put('/api/user/:id', (req,res) => {
     });
 });
 
-//deletes user
-router.delete('/api/user/:id', (req,res) => {
-    User.findByIdandRemove(req.params.id).exec()
-    .then(doc => {
-        if (!doc) { return res.status(404).end();}
-        return res.status(204).end();
-    })
-    .catch(err => next(err));
+//reads user credentials
+router.get('/', (req,res) => {
+    res.send(req.params.id);
 });
 
 module.exports = router
