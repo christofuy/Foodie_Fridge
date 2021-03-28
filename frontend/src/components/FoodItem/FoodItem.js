@@ -5,7 +5,7 @@ export const FoodList = ({items}) => {
 	return (
 		<ul>
 			{items.map((item, index) => (
-				<FoodListItem key={index} name={item.name} expiry={item.expiry} />
+				<FoodListItem key={index} name={item.item} expiry={item.expiry} />
 			))}
 		</ul>
 	)

@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import DashCard from '../../components/DashCard/DashCard'
 import DayCard from '../../components/DayCard/DayCard'
 import Modal from '../../components/Modal/Modal'
 import {FoodList} from '../../components/FoodItem/FoodItem'
 import useDB from '../../utils/useDB'
+import useAuth from '../../utils/useAuth'
 import './dashboardmain.scss'
 import {Formik, Form} from 'formik'
 import TextField from '../../components/Form/TextField'
@@ -60,17 +61,50 @@ const RecipeCard = () => {
 
 
 const initialValues = {
-	name: '',
+	item: '',
 	expiry: ''
 }
 
 const FridgeCard = () => {
-	//const {items}=useDB('/food/')
+	const {user} = useAuth()
 	const [items, setItems] = useState([])
 
 
-	const handleAdd = (values) => {
-		setItems(items.concat([values]))
+	useEffect(async () => {
+		const res = await fetch('http://localhost:5000/api/food', {
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json',
+				'x-auth-token': user
+			},
+		})
+		const payload = await res.json()
+		setItems(payload.doc.foodItems)
+	}, [])
+
+
+	const handleAdd = async (values, {setSubmitting, resetForm}) => {
+		setSubmitting(true)
+		try {
+			const res = await fetch('http://localhost:5000/api/food', {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Accept': 'application/json',
+					'Content-type': 'application/json',
+					'x-auth-token': user
+				},
+				body: JSON.stringify(values)
+			})
+			const payload = await res.json()
+			setItems(payload.doc.foodItems)
+			resetForm()
+		} catch (err) {
+			console.log('Add FoodItem Error: ', err)
+		}
+		setSubmitting(false)
 	}
 
 	return (
@@ -83,7 +117,7 @@ const FridgeCard = () => {
 						initialValues={initialValues}
 						onSubmit={handleAdd}
 					>
-						{() => (
+						{(dirty, isSubmitting) => (
 							<Form className='flex flex-column'
 								style={{
 									backgroundColor: 'white',
@@ -94,7 +128,7 @@ const FridgeCard = () => {
 							>
 								<h4 style={{marginBottom: '0.8em', textAlign: 'center'}}>Add Food Item</h4>
 								<TextField
-									name='name'
+									name='item'
 									type='text'
 									label='Food Name'
 									required
@@ -105,7 +139,12 @@ const FridgeCard = () => {
 									type='date'
 									required
 								/>
-								<Button variant='contained' color='primary' type='submit'>
+								<Button
+									variant='contained'
+									color='primary'
+									type='submit'
+									disabled={!dirty || isSubmitting}
+								>
 									Add Item
 								</Button>
 							</Form>
