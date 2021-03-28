@@ -7,11 +7,11 @@ const verifyToken = (req, res, next) => {
 
 	try {
 		const decoded = jwt.verify(token, 'secretkey')
-		console.log('================checkpoint1')
-		req.uid = decoded.user._id
+		req.uid = decoded.uid
 	}
 	catch (err) {
 		res.status(400).json({msg: 'Invalid Token'})
+		throw err
 	}
 	next()
 }
