@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
+const Schema = mongoose.Schema;
 const foodSchema = new Schema({
 	item: {type: String, required: true},
 	expiry: {type: String, required: true}
 })
 
-const Food = mongoose.model('Food', foodSchema);
-
-
+//const Food = mongoose.model('Food', foodSchema);
 
 const foodListSchema = new Schema({
 	uid: {type: String, required: true},
