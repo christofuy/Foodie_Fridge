@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 
 
 dotenv.config();
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 
 //middleware
@@ -21,6 +21,7 @@ app.use(require('./middleware/authjwt'))
 //routes
 app.use('/api/user', require('./routes/user'));
 app.use('/api/auth', require('./routes/auth'))
+app.use('/api/food', require('./routes/food'))
 
 
 app.listen(port, () => console.log("listening on port " + port))

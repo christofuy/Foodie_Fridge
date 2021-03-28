@@ -1,13 +1,47 @@
 const express = require('express');
-const axios = require('axios');
+//const axios = require('axios');
 const router = express.Router()
-let Food = require('../models/food.model.js')
+let FoodList = require('../models/food.model.js')
 
 //adds food to fridge
-router.post('/add', (req,res) => {
-    const{item, date} = req.body;
-    if (!items || !date) {
-        return res.status(400).json({msg: 'Please input in both boxes'})
-    }
-    const newItems = new Food({item, date})
+router.post('/', async (req, res) => {
+	const {item, expiry} = req.body;
+	if (!item || !expiry) {
+		return res.status(400).json({msg: 'Please input in both boxes'})
+	}
+	//const newItems = new Food({item, date})
+
+	const doc = await FoodList.findOneAndUpdate(
+		{
+			uid: req.uid
+		},
+		{
+			$addToSet: {
+				foodItems: {item, expiry}
+			}
+		},
+		{new: true}
+	)
+
+
+
+	if (!doc) {
+		const newFoodList = new FoodList({
+			uid: req.uid,
+			foodItems: [{item, expiry}]
+		})
+		newFoodList.save()
+	}
+	res.json({doc})
 });
+
+
+router.get('/', async (req, res) => {
+	if (!req.uid) res.json({msg: 'Not Authenticated'})
+
+	const doc = await FoodList.findOne({uid: req.uid})
+	res.json({doc})
+})
+
+
+module.exports = router

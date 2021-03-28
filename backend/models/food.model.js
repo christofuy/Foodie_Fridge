@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 
 //model for fridge items and expiration dates
-const foodModel = 
-    db.fridges.aggregate([
-        { $project: { item : date}}
-    ])
+const Schema = mongoose.Schema
 
-const Food = mogoose.model('Food',foodModel);
+const foodSchema = new Schema({
+	item: {type: String, required: true},
+	expiry: {type: String, required: true}
+})
 
-module.exports = Food;
+
+const foodListSchema = new Schema({
+	uid: {type: String, required: true},
+	foodItems: [foodSchema]
+})
+
+
+const FoodList = mongoose.model('Food', foodListSchema, 'foodList');
+
+module.exports = FoodList;
