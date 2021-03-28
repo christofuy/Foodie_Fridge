@@ -3,8 +3,8 @@ import DashCard from '../../components/DashCard/DashCard'
 import DayCard from '../../components/DayCard/DayCard'
 import Modal from '../../components/Modal/Modal'
 import {FoodList} from '../../components/FoodItem/FoodItem'
-import useDB from '../../utils/useDB'
 import useAuth from '../../utils/useAuth'
+import weeklyExpire from '../../utils/checkExpire'
 import './dashboardmain.scss'
 import {Formik, Form} from 'formik'
 import TextField from '../../components/Form/TextField'
@@ -35,8 +35,8 @@ const DashboardMain = () => {
 		<div className='dashboard__main' style={{maxHeight: '100vh'}}>
 			<div className='container'>
 				<div className='dashboard__components'>
-					<ExpiryCard />
-					<RecipeCard items={items} setItems={setItems} />
+					<ExpiryCard items={items} />
+					<RecipeCard items={items} />
 					<FridgeCard items={items} setItems={setItems} />
 				</div>
 			</div>
@@ -45,7 +45,8 @@ const DashboardMain = () => {
 }
 
 
-const ExpiryCard = () => {
+const ExpiryCard = ({items}) => {
+	const daysExpiry = weeklyExpire(items)
 	return (
 		<DashCard className='dashCard-expiry'>
 			<h3>Expiry Dates</h3>
@@ -55,13 +56,13 @@ const ExpiryCard = () => {
 
 				}}
 			>
-				<DayCard title='Sun' items={[]} />
-				<DayCard title='Mon' items={[]} />
-				<DayCard title='Tues' items={[]} />
-				<DayCard title='Wed' items={[]} />
-				<DayCard title='Thurs' items={[]} />
-				<DayCard title='Fri' items={[]} />
-				<DayCard title='Sat' items={[]} />
+				<DayCard title='Sun' items={daysExpiry.Sunday} />
+				<DayCard title='Mon' items={daysExpiry.Monday} />
+				<DayCard title='Tues' items={daysExpiry.Tuesday} />
+				<DayCard title='Wed' items={daysExpiry.Wednesday} />
+				<DayCard title='Thurs' items={daysExpiry.Thursday} />
+				<DayCard title='Fri' items={daysExpiry.Friday} />
+				<DayCard title='Sat' items={daysExpiry.Saturday} />
 			</div>
 		</DashCard>
 	)
