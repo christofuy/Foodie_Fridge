@@ -1,15 +1,12 @@
 const express = require('express');
-//const axios = require('axios');
 const router = express.Router()
 let FoodList = require('../models/food.model.js')
 
-//adds food to fridge
 router.post('/', async (req, res) => {
 	const {item, expiry} = req.body;
 	if (!item || !expiry) {
 		return res.status(400).json({msg: 'Please input in both boxes'})
 	}
-	//const newItems = new Food({item, date})
 
 	const doc = await FoodList.findOneAndUpdate(
 		{
