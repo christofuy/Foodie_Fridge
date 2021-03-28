@@ -20,7 +20,8 @@ app.use(require('./middleware/authjwt'))
 
 //routes
 app.use('/api/user', require('./routes/user'));
-app.use('/api/auth', require('./routes/auth'))
+//app.use('/api/auth', require('./routes/auth'));
+app.use('/api/user', require('./routes/food'));
 
 
 app.listen(port, () => console.log("listening on port " + port))
