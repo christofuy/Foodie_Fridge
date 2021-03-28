@@ -12,13 +12,32 @@ import Button from '../../components/Button/Button'
 
 
 const DashboardMain = () => {
+	const {user} = useAuth()
+	const [items, setItems] = useState([])
+
+
+	useEffect(async () => {
+		const res = await fetch('http://localhost:5000/api/food', {
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json',
+				'x-auth-token': user
+			},
+		})
+		const payload = await res.json()
+		if (payload.doc) setItems(payload.doc.foodItems)
+	}, [])
+
+
 	return (
 		<div className='dashboard__main' style={{maxHeight: '100vh'}}>
 			<div className='container'>
 				<div className='dashboard__components'>
 					<ExpiryCard />
-					<RecipeCard />
-					<FridgeCard />
+					<RecipeCard items={items} setItems={setItems} />
+					<FridgeCard items={items} setItems={setItems} />
 				</div>
 			</div>
 		</div>
@@ -36,24 +55,62 @@ const ExpiryCard = () => {
 
 				}}
 			>
-				<DayCard title='Sun' items={['yes', 'no']} />
-				<DayCard title='Mon' items={['yes', 'no']} />
-				<DayCard title='Tues' items={['yes', 'no']} />
-				<DayCard title='Wed' items={['yes', 'no']} />
-				<DayCard title='Thurs' items={['yes', 'no']} />
-				<DayCard title='Fri' items={['yes', 'no']} />
-				<DayCard title='Sat' items={['yes', 'no']} />
+				<DayCard title='Sun' items={[]} />
+				<DayCard title='Mon' items={[]} />
+				<DayCard title='Tues' items={[]} />
+				<DayCard title='Wed' items={[]} />
+				<DayCard title='Thurs' items={[]} />
+				<DayCard title='Fri' items={[]} />
+				<DayCard title='Sat' items={[]} />
 			</div>
 		</DashCard>
 	)
 }
 
 
-const RecipeCard = () => {
+const RecipeCard = ({items}) => {
+	const [recipes, setRecipes] = useState([])
+
+	useEffect(async () => {
+		if (items) {
+			let url = 'https://api.spoonacular.com/recipes/findByIngredients?' + (new URLSearchParams({
+				apiKey: '4ea770b37b9b434b9537e77096a8720c',
+				number: 3,
+				ingredients: items.map(item => item.item).join(',+')
+			}))
+
+			const config = {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-type': 'application/json',
+				}
+			}
+
+			const res = await fetch(url, config)
+			const payload = await res.json()
+			setRecipes(payload)
+		}
+	}, [items])
+
 	return (
 		<DashCard className='dashCard-recipe'>
 			<h3>Recipes</h3>
-			<h6>Recipe Name</h6>
+			{items.length ? (
+				recipes.map(recipe => (
+					<div className='recipe'>
+						<h5 className='recipe__title'>{recipe.title}</h5>
+						<div className='recipe__ingredients'>
+							{recipe.usedIngredients.map(ingred => (
+								<li key={ingred.id} className='recipe__ingredient-using'>{ingred.name}</li>
+							))}
+							{recipe.missedIngredients.map(ingred => (
+								<li key={ingred.id} className='recipe__ingredient-missing'>{ingred.name}</li>
+							))}
+						</div>
+					</div>)))
+				: <p>Add some items to see what recipes are waiting for you!</p>
+			}
 		</DashCard>
 	)
 }
@@ -65,24 +122,8 @@ const initialValues = {
 	expiry: ''
 }
 
-const FridgeCard = () => {
+const FridgeCard = ({items, setItems}) => {
 	const {user} = useAuth()
-	const [items, setItems] = useState([])
-
-
-	useEffect(async () => {
-		const res = await fetch('http://localhost:5000/api/food', {
-			method: 'GET',
-			credentials: 'include',
-			headers: {
-				'Accept': 'application/json',
-				'Content-type': 'application/json',
-				'x-auth-token': user
-			},
-		})
-		const payload = await res.json()
-		setItems(payload.doc.foodItems)
-	}, [])
 
 
 	const handleAdd = async (values, {setSubmitting, resetForm}) => {
