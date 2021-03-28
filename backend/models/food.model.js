@@ -7,8 +7,6 @@ const foodSchema = new Schema({
 	expiry: {type: String, required: true}
 })
 
-
-
 const foodListSchema = new Schema({
 	uid: {type: String, required: true},
 	foodItems: [foodSchema]

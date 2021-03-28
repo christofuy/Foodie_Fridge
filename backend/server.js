@@ -19,9 +19,10 @@ app.use(express.json());
 app.use(require('./middleware/authjwt'))
 
 //routes
-app.use('/api/user', require('./routes/user'));
+app.use('/api/user', require('./routes/user'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/food', require('./routes/food'))
+app.use('/api/expiration', require('./routes/expiration'))
 
 
 app.listen(port, () => console.log("listening on port " + port))
