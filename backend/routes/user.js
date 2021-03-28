@@ -13,28 +13,16 @@ router.post('/', (req, res) => {
 	}
 	const newUser = new User({name, email, password})
 	bcrypt.genSalt(10, (err, salt) => {
-		if (err) {
-			console.log('error generating salt')
-			throw err
-		}
+		if (err) throw err
 
 		bcrypt.hash(newUser.password, salt, (err, hash) => {
-			if (err) {
-				console.log('error hashing password')
-				throw err
-			}
+			if (err) throw err
 
 			newUser.password = hash
 			newUser.save((err, user) => {
-				if (err) {
-					console.log('error saving user')
-					return res.json({err})
-				}
+				if (err) return res.json({err})
 				jwt.sign({uid: user._id}, 'secretkey', (err, token) => {
-					if (err) {
-						//return res.sendStatus(403)
-						throw err
-					}
+					if (err) return res.sendStatus(403)
 					res.json({token, msg: 'Successfully created user'})
 				})
 			})
