@@ -2,24 +2,27 @@ const {useState, useEffect} = require("react")
 
 
 
-const useDB = () => {
-	const [items, setItems] = useState([])
+const useDB = (endpoint, method, body) => {
+	const [payload, setPayload] = useState([])
 
 	useEffect(() => {
-		fetch('http://localhost:5000/api/user/food', {
-			method: 'GET',
+		const config = {
+			method,
 			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-type': 'application/json'
 			},
-		})
+			body
+		}
+
+		fetch(`http://localhost:5000/api/${endpoint}`, config)
 			.then(res => res.json())
-			.then(data => setItems(data))
+			.then(data => setPayload(data))
 	}, [])
 
 
-	return {items}
+	return {payload}
 }
 
 

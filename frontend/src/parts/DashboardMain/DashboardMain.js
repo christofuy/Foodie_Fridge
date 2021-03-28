@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import DashCard from '../../components/DashCard/DashCard'
+import DayCard from '../../components/DayCard/DayCard'
 import Modal from '../../components/Modal/Modal'
 import {FoodList} from '../../components/FoodItem/FoodItem'
 import useDB from '../../utils/useDB'
@@ -29,6 +30,19 @@ const ExpiryCard = () => {
 		<DashCard className='dashCard-expiry'>
 			<h3>Expiry Dates</h3>
 			<p>03/21 - 03/27</p>
+			<div className='flex jc-sb'
+				style={{
+
+				}}
+			>
+				<DayCard title='Sun' items={['yes', 'no']} />
+				<DayCard title='Mon' items={['yes', 'no']} />
+				<DayCard title='Tues' items={['yes', 'no']} />
+				<DayCard title='Wed' items={['yes', 'no']} />
+				<DayCard title='Thurs' items={['yes', 'no']} />
+				<DayCard title='Fri' items={['yes', 'no']} />
+				<DayCard title='Sat' items={['yes', 'no']} />
+			</div>
 		</DashCard>
 	)
 }
@@ -47,11 +61,11 @@ const RecipeCard = () => {
 
 const initialValues = {
 	name: '',
-	expiry: (new Date('2021-05-24'))
+	expiry: ''
 }
 
 const FridgeCard = () => {
-	//const {items}=useDB()
+	//const {items}=useDB('/food/')
 	const [items, setItems] = useState([])
 
 
