@@ -26,15 +26,18 @@ const DayCard = ({title, items}) => {
 				}}
 			> </div>
 			<div className='expiry-items flex flex-column'>
-				{items.map((item, index) => (
-					<li key={index}
-						style={{
-							listStyleType: 'none',
-							textAlign: 'center',
-							color: '#6D6D6D'
-						}}
-					>{item}</li>
-				))}
+				{items.length
+					? (items.map((item, index) => (
+						<li key={index}
+							style={{
+								listStyleType: 'none',
+								textAlign: 'center',
+								color: '#6D6D6D'
+							}}
+						>{item}</li>
+					)))
+					: <li style={{listStyleType: 'none', textAlign: 'center', color: '#6D6D6D'}}> None </li>
+				}
 			</div>
 		</div>
 	)
